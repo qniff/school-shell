@@ -16,18 +16,6 @@ class App(npyscreen.NPSAppManaged):
         self.switchForm(name)
         self.resetHistory()
 
-
-# CONTROLLERS
-class ActionControllerSearch(npyscreen.ActionControllerSimple):
-    def create(self):
-        self.add_action('^/.*', self.set_search, True)
-
-    def set_search(self, command_line, widget_proxy, live):
-        self.parent.value.set_filter(command_line[1:])
-        self.parent.wMain.values = self.parent.value.get()
-        self.parent.wMain.display()
-
-
 # FORMS
 class MainForm(npyscreen.ActionForm):
     def create(self):
@@ -56,9 +44,24 @@ class SeeNotesForm(npyscreen.ActionForm):
 
 # ADD NOTES FORM
 class AddNotesForm(npyscreen.ActionForm):
-    action_controller = ActionControllerSearch
     def create(self):
-        self.notePager = self.add(npyscreen.TextCommandBox, ActionControllerSearch)
+        self.notePager = self.add(npyscreen.MultiLineEdit)
+        self.add_handlers({
+            "^A": self.when_save_note,
+            "^X": self.when_back,
+        })
+        f = open("whatever", "a")
+        f.write(self.notePager.value)
+        f.close()
+    
+    def when_save_note(self, *args, **keywords):
+        f = open("whatever", "a")
+        f.write(self.notePager.value)
+        f.close()
+
+    def when_back(self, *args, **keywords):
+        self.parentApp.switchForm("MAIN")
+        
 
 # MAIN BUTTONS
 class SeeNotesButton(npyscreen.ButtonPress):

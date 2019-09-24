@@ -19,8 +19,8 @@ class AddressDatabase(object):
               )" \
             )
         db.commit()
-        c.close()    
-    
+        c.close()
+
     def add_record(self, last_name = '', other_names='', email_address=''):
         db = sqlite3.connect(self.dbfilename)
         c = db.cursor()

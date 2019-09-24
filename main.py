@@ -9,12 +9,23 @@ import os
 class App(npyscreen.NPSAppManaged):
     def onStart(self):
         self.addForm("MAIN", MainForm, name="Welcome to StudentShell")
-        self.addForm("SEE-NOTES", NoteForm, name="Notes")
-        self.addForm("ADD-NOTES", NoteForm, name="Notes")
+        self.addForm("SEE-NOTES", SeeNotesForm, name="Notes")
+        self.addForm("ADD-NOTES", AddNotesForm, name="Notes")
 
     def change_form(self,name):
         self.switchForm(name)
         self.resetHistory()
+
+
+# CONTROLLERS
+class ActionControllerSearch(npyscreen.ActionControllerSimple):
+    def create(self):
+        self.add_action('^/.*', self.set_search, True)
+
+    def set_search(self, command_line, widget_proxy, live):
+        self.parent.value.set_filter(command_line[1:])
+        self.parent.wMain.values = self.parent.value.get()
+        self.parent.wMain.display()
 
 
 # FORMS
@@ -27,7 +38,8 @@ class MainForm(npyscreen.ActionForm):
     def on_ok(self):
         self.parentApp.switchForm(None)
 
-class NoteForm(npyscreen.ActionForm):
+# SEE NOTES FORM
+class SeeNotesForm(npyscreen.ActionForm):
     def create(self):
         self.notePager = self.add(npyscreen.Pager, name="note", editable=False)
 
@@ -42,6 +54,11 @@ class NoteForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("MAIN")
 
+# ADD NOTES FORM
+class AddNotesForm(npyscreen.ActionForm):
+    action_controller = ActionControllerSearch
+    def create(self):
+        self.notePager = self.add(npyscreen.TextCommandBox, ActionControllerSearch)
 
 # MAIN BUTTONS
 class SeeNotesButton(npyscreen.ButtonPress):
@@ -51,6 +68,8 @@ class SeeNotesButton(npyscreen.ButtonPress):
 class AddNotesButton(npyscreen.ButtonPress):
     def whenPressed(self):
         self.parent.parentApp.switchForm("ADD-NOTES")
+
+
 # RUN
 if __name__ == "__main__":
     App = App()

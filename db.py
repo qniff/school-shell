@@ -74,6 +74,6 @@ class SchoolDatabase(object):
         c.execute('UPDATE course set code=?, name=? \
                     course_id=?', (code, name, \
                                                         course_id))
-
         db.commit()
         c.close()
+        

@@ -20,4 +20,15 @@ amazing
 
 d as das 
 -- sad san dsa 
-sa d'smdfk smda fksd sd= asd asd- s-da  -sa
+sa d'smdfk smda fksd sd= asd asd- s-da  -sasad asd as das dasd a
+
+
+
+import sqlite3
+db = sqlite3.connect('school.db')
+c = db.cursor()
+c.execute('INSERT INTO course(code, name) VALUES(?,?)', ('code', 'name'))
+c.execute('SELECT * FROM course')
+        records = c.fetchall()
+        print(records)
+c.execute('DROP TABLE course')

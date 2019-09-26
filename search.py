@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import npyscreen
+]
 class ActionControllerSearch(npyscreen.ActionControllerSimple):
     def create(self):
         self.add_action('^/.*', self.set_search, True)

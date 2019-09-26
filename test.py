@@ -7,7 +7,7 @@ import sys
 class MainApp(npyscreen.NPSApp):
     def main(self):
         F  = npyscreen.Form(name = "Welcome to StudentShell",)
-        t  = F.add(npyscreen.TitleText, name = "Text:",)
+        t  = F.add(npyscreen.TitleText, name = "Text:", value='yo')
 
         fn = F.add(npyscreen.TitleFilename, name = "Filename:")
         fn2 = F.add(npyscreen.TitleFilenameCombo, name="Filename2:")

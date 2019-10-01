@@ -1,6 +1,7 @@
 # Hello and welcome to student-shell!
 **Terminal application that helps you manage your courses!**
 
+
 ## Source
 * https://github.com/qniff/school-shell
 

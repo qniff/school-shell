@@ -7,7 +7,8 @@ import sys
 import os
 
 from db import SchoolDatabase
-from help import Helper
+from helper import Helper
+
 
 # FORMS
 class MainForm(npyscreen.ActionForm):
@@ -15,11 +16,10 @@ class MainForm(npyscreen.ActionForm):
         courses = self.parentApp.db.list_courses()
         counter = 0
         for course in self.parentApp.db.list_courses():
-            text = self.parentApp.helper.print_course(courses[counter])
+            text = self.parentApp.helper.print_course(course)
             self.add(OpenCourseButton, name=text)
-            counter += 1
 
-        # self.add(npyscreen.TitleText, value='=====')
+        self.add(npyscreen.MultiLineEdit, value='\n', max_height=1, editable=False)
         self.add(AddCourseButton, name="*Add course")
 
     def on_ok(self):
@@ -31,7 +31,6 @@ class AddCourseForm(npyscreen.ActionForm):
         self.courseName  = self.add(npyscreen.TitleText, name = "Course name: ")
 
     def on_ok(self):
-        # Save course
         self.parentApp.db.add_course(self.courseCode.value, self.courseName.value)
         self.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parentApp.switchForm("MAIN")
@@ -39,16 +38,36 @@ class AddCourseForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("MAIN")
 
+class EditCourseForm(npyscreen.ActionForm):
+    def create(self):
+        self.course_id = self.parentApp.helper.get_course_id(self.parentApp.currentCourse)
+        course = self.parentApp.db.get_course(self.course_id)
+        self.courseCode  = self.add(npyscreen.TitleText, name = "Course code: ", value=str(course[1]))
+        self.courseName  = self.add(npyscreen.TitleText, name = "Course name: ", value=str(course[2]))
+
+    def on_ok(self):
+        self.parentApp.db.update_course(self.course_id, self.courseCode.value, self.courseName.value)
+        self.parentApp.currentCourse = self.courseCode.value + ": " + self.courseName.value
+        self.parentApp.addForm("SEE-COURSE", SeeCourseForm, name=self.parentApp.currentCourse)
+        self.parentApp.switchForm("SEE-COURSE")
+
+    def on_cancel(self):
+        self.parentApp.switchForm("SEE-COURSE")
+
 class SeeCourseForm(npyscreen.ActionForm):
     def create(self):
         self.seeNotesButton = self.add(SeeNotesButton, name="See notes")
         self.addNotesButton = self.add(AddNotesButton, name="Edit notes")
+        self.add(npyscreen.MultiLineEdit, value='\n', max_height=1, editable=False)
+        self.editCourseButton = self.add(EditCourseButton, name="*Edit course")
         self.deleteCourseButton = self.add(DeleteCourseButton, name="*Delete course")
 
     def on_ok(self):
+        self.parent.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parentApp.switchForm("MAIN")
 
     def on_cancel(self):
+        self.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parentApp.switchForm("MAIN")
 
 class SeeNotesForm(npyscreen.ActionForm):
@@ -88,12 +107,21 @@ class AddNotesForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("SEE-COURSE")
 
+
 # MAIN BUTTONS
 class AddCourseButton(npyscreen.ButtonPress):
     def whenPressed(self):
         self.parent.parentApp.addForm("ADD-COURSE", AddCourseForm, name="Adding course")
         self.parent.parentApp.switchForm("ADD-COURSE")
 
+class OpenCourseButton(npyscreen.ButtonPress):
+    def whenPressed(self):
+        self.parent.parentApp.currentCourse = self.name
+        self.parent.parentApp.addForm("SEE-COURSE", SeeCourseForm, name=self.name)
+        self.parent.parentApp.switchForm("SEE-COURSE")
+
+
+# COURSE BUTTONS
 class DeleteCourseButton(npyscreen.ButtonPress):
     def whenPressed(self):
         course_id = self.parent.parentApp.helper.get_course_id(self.parent.parentApp.currentCourse)
@@ -101,11 +129,10 @@ class DeleteCourseButton(npyscreen.ButtonPress):
         self.parent.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parent.parentApp.switchForm("MAIN")
 
-class OpenCourseButton(npyscreen.ButtonPress):
+class EditCourseButton(npyscreen.ButtonPress):
     def whenPressed(self):
-        self.parent.parentApp.currentCourse = self.name
-        self.parent.parentApp.addForm("SEE-COURSE", SeeCourseForm, name=self.name)
-        self.parent.parentApp.change_form("SEE-COURSE")
+        self.parent.parentApp.addForm("EDIT-COURSE", EditCourseForm, name="Editing course")
+        self.parent.parentApp.switchForm("EDIT-COURSE")
 
 class SeeNotesButton(npyscreen.ButtonPress):
     def whenPressed(self):
@@ -127,13 +154,7 @@ class App(npyscreen.NPSAppManaged):
         self.db = SchoolDatabase()
         self.helper = Helper()
         self.addForm("MAIN", MainForm, name="Welcome to StudentShell")
-        # self.addForm("SEE-COURSE", SeeCourseForm, name="COURSE INFO")
-        # self.addForm("SEE-NOTES", SeeNotesForm, name="Notes")
-        # self.addForm("ADD-NOTES", AddNotesForm, name="Notes")
 
-    def change_form(self,name):
-        self.switchForm(name)
-        self.resetHistory()
 
 # RUN
 if __name__ == "__main__":

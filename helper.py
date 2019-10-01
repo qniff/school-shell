@@ -14,8 +14,7 @@ class Helper:
         c.close()
         return course_id
 
-    def debug(self, string=''):
-        now = datetime.now()
-        f = open("debug.txt", "w+")
-        f.write(str(now) + ": " + string + "\n")
+    def debug(self, message=''):
+        f = open("debug.txt", "a")
+        f.write(str(datetime.now()) + ": " + str(message) + "\n")
         f.close()

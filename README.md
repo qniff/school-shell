@@ -8,7 +8,7 @@
 ## Installation
 * Install python3
 * Install npyscreen (pip install npyscreen)
-* Open terminal:
+* Open terminal / powershell:
 * git clone https://github.com/qniff/school-shell
 * cd school-shell
 * ./main.py

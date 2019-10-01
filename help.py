@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 class Helper:
     def print_course(self, course=''):
@@ -12,3 +13,9 @@ class Helper:
         course_id = str(c.fetchone()[0])
         c.close()
         return course_id
+
+    def debug(self, string=''):
+        now = datetime.now()
+        f = open("debug.txt", "w+")
+        f.write(str(now) + ": " + string + "\n")
+        f.close()

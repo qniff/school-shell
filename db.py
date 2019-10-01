@@ -37,6 +37,7 @@ class SchoolDatabase(object):
         db.commit()
         c.close()
 
+    # COURSES TABLE
     def add_course(self, code='', name=''):
         db = sqlite3.connect(self.dbfilename)
         c = db.cursor()
@@ -72,8 +73,42 @@ class SchoolDatabase(object):
         db = sqlite3.connect(self.dbfilename)
         c = db.cursor()
         c.execute('UPDATE course set code=?, name=? \
-                    course_id=?', (code, name, \
+                    WHERE course_id=?', (code, name, \
                                                         course_id))
         db.commit()
         c.close()
-        
+
+
+    # NOTES TABLE
+    def add_note(self, course_id='', content=''):
+        db = sqlite3.connect(self.dbfilename)
+        c = db.cursor()
+        c.execute('SELECT * FROM note WHERE course_id=?', (course_id,))
+        check = c.fetchall()
+        if len(check) == 0:
+            c.execute('INSERT INTO note(course_id, content) \
+                    VALUES(?,?)', (course_id, content))
+        else:
+
+            c.execute('UPDATE note set content=? \
+                        WHERE course_id=?', (content, \
+                                                        course_id))
+        db.commit()
+        c.close()
+
+    def get_notes(self, course_id=''):
+        db = sqlite3.connect(self.dbfilename)
+        c = db.cursor()
+        c.execute('SELECT * from note WHERE course_id=?', (course_id,))
+        notes = c.fetchall()
+        c.close()
+        return notes
+
+    def update_notes(self, course_id, content=''):
+        db = sqlite3.connect(self.dbfilename)
+        c = db.cursor()
+        c.execute('UPDATE note set content=? \
+                    WHERE course_id=?', (content, \
+                                                        course_id))
+        db.commit()
+        c.close()

@@ -11,6 +11,7 @@ from helper import Helper
 
 
 # FORMS
+# MAIN FORM
 class MainForm(npyscreen.ActionForm):
     def create(self):
         courses = self.parentApp.db.list_courses()
@@ -25,6 +26,7 @@ class MainForm(npyscreen.ActionForm):
     def on_ok(self):
         self.parentApp.switchForm(None)
 
+# ADD COURSE FORM
 class AddCourseForm(npyscreen.ActionForm):
     def create(self):
         self.courseCode  = self.add(npyscreen.TitleText, name = "Course code: ")
@@ -38,6 +40,7 @@ class AddCourseForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("MAIN")
 
+# EDIT COURSE FORM
 class EditCourseForm(npyscreen.ActionForm):
     def create(self):
         self.course_id = self.parentApp.helper.get_course_id(self.parentApp.currentCourse)
@@ -54,6 +57,7 @@ class EditCourseForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("SEE-COURSE")
 
+# SEE COURSE FORM
 class SeeCourseForm(npyscreen.ActionForm):
     def create(self):
         self.seeNotesButton = self.add(SeeNotesButton, name="See notes")
@@ -70,6 +74,7 @@ class SeeCourseForm(npyscreen.ActionForm):
         self.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parentApp.switchForm("MAIN")
 
+# SEE NOTES FORM
 class SeeNotesForm(npyscreen.ActionForm):
     def create(self):
         currentCourse = self.parentApp.currentCourse
@@ -86,6 +91,7 @@ class SeeNotesForm(npyscreen.ActionForm):
     def on_cancel(self):
         self.parentApp.switchForm("SEE-COURSE")
 
+# ADD NOTES FORM
 class AddNotesForm(npyscreen.ActionForm):
     def create(self):
         self.notePager = self.add(npyscreen.MultiLineEdit)
@@ -160,17 +166,3 @@ class App(npyscreen.NPSAppManaged):
 if __name__ == "__main__":
     App = App()
     App.run()
-
-
-# USEFUL STUFF
-        # self.add_handlers({
-        #     "^A": self.when_save_note,
-        #     "^X": self.when_back,
-        # })
-        # f.write(self.notePager.value)
-        # f.close()
-
-    # def when_save_note(self, *args, **keywords):
-    #     f = open("whatever", "a")
-    #     f.write(self.notePager.value)
-    #     f.close()

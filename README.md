@@ -1,31 +1,31 @@
 # Hello and welcome to student-shell!
-***Terminal application that helps you manage your courses!***
+**Terminal application that helps you manage your courses!**
 
-## SOURCE
+## Source
 * https://github.com/qniff/school-shell
 
 
-## INSTALLATION
+## Installation
 * Install python3
 * Install npyscreen (pip install npyscreen)
 * Open terminal:
-** git clone https://github.com/qniff/school-shell
-** cd school-shell
-** ./main.py
+* git clone https://github.com/qniff/school-shell
+* cd school-shell
+* ./main.py
 
 
-## GENERAL
+## General
 * To start managing your courses make use of "*Add course" button first
 
 
-## EDITING NOTE SHORTCUTS
+## Editing note shortcuts
 * Ctrl+S - save the note
 * Ctrl+X - cancel note editing
 * Ctrl+F - move cursor to the first character
 * Ctrl+L - Move cursor to the last character
 
 
-## COMING SOON
+## Coming soon
 * Several notes per course
 * More flexible note display
 * Several class time data entries per course

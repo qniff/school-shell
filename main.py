@@ -7,6 +7,7 @@ import sys
 import os
 import curses
 
+sys.path.insert(0, './class')
 from db import SchoolDatabase
 from helper import Helper
 
@@ -182,7 +183,7 @@ class EditClassForm(npyscreen.ActionForm):
 class HelpForm(npyscreen.ActionForm):
     def create(self):
         content = "help page"
-        with open('help.txt', 'r') as file:
+        with open('README.md', 'r') as file:
             content = file.read()
         self.add(npyscreen.MultiLineEdit, value=content, editable=False)
 

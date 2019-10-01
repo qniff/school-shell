@@ -87,7 +87,7 @@ class SeeCourseForm(npyscreen.ActionForm):
         self.deleteCourseButton = self.add(DeleteCourseButton, name="*Delete course")
 
     def on_ok(self):
-        self.parent.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
+        self.parentApp.addForm("MAIN", MainForm, name="Welcome to StudentShell")
         self.parentApp.change_form("MAIN")
 
     def on_cancel(self):

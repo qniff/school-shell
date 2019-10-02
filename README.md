@@ -7,9 +7,9 @@
 
 
 ## Installation
-* Install python3
-* Install npyscreen (pip install npyscreen)
-* Open terminal / powershell:
+* Install python2.6+ with curses library (windows python does not support it)
+* Install npyscreen (pip install npyscreen) and sqllite3
+* Open terminal for unix / cygwin for windows:
 * git clone https://github.com/qniff/school-shell
 * cd school-shell
 * ./main.py

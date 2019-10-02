@@ -72,7 +72,7 @@ class SeeCourseForm(npyscreen.ActionForm):
         if len(date_record) != 0:
             class_date = date_record[0][2]
             if class_date != '':
-                self.add(npyscreen.MultiLineEdit, value="Class date: ", max_height=1, editable=False)
+                self.add(npyscreen.MultiLineEdit, value="Class schedule: ", max_height=1, editable=False)
                 self.add(npyscreen.MultiLineEdit, value="\t\t\t" + class_date, max_height=1, editable=False)
                 self.add(npyscreen.MultiLineEdit, value='\n', max_height=1, editable=False)
 
@@ -82,7 +82,7 @@ class SeeCourseForm(npyscreen.ActionForm):
 
         # class + course buttons
         self.add(npyscreen.MultiLineEdit, value='\n', max_height=1, editable=False)
-        self.editClassButton = self.add(EditClassButton, name="*Edit class time")
+        self.editClassButton = self.add(EditClassButton, name="*Edit class schedule")
         self.editCourseButton = self.add(EditCourseButton, name="*Edit course")
         self.deleteCourseButton = self.add(DeleteCourseButton, name="*Delete course")
 

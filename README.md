@@ -31,4 +31,4 @@
 * More flexible note display
 * Several class time data entries per course
 * Calendar based on time of classes
-? Cleaning up folders of your machine
+*? Cleaning up folders of your machine

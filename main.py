@@ -17,7 +17,6 @@ from helper import Helper
 class MainForm(npyscreen.ActionForm):
     def create(self):
         courses = self.parentApp.db.list_courses()
-        counter = 0
         for course in self.parentApp.db.list_courses():
             text = self.parentApp.helper.print_course(course)
             self.add(OpenCourseButton, name=text)
@@ -64,7 +63,6 @@ class EditCourseForm(npyscreen.ActionForm):
 class SeeCourseForm(npyscreen.ActionForm):
     def create(self):
         # set date of class
-        classDate = "Mn: 10:30 - 12:00; Th: 09:00 - 11:00"
         classDate = self.parentApp.db.get_classes()
         currentCourse = self.parentApp.currentCourse
         course_id = self.parentApp.helper.get_course_id(currentCourse)
@@ -75,7 +73,6 @@ class SeeCourseForm(npyscreen.ActionForm):
                 self.add(npyscreen.MultiLineEdit, value="Class schedule: ", max_height=1, editable=False)
                 self.add(npyscreen.MultiLineEdit, value="\t\t\t" + class_date, max_height=1, editable=False)
                 self.add(npyscreen.MultiLineEdit, value='\n', max_height=1, editable=False)
-
         # notes buttons
         self.seeNotesButton = self.add(SeeNotesButton, name="See notes")
         self.addNotesButton = self.add(AddNotesButton, name="Edit notes")
@@ -205,6 +202,7 @@ class AddCourseButton(npyscreen.ButtonPress):
 class OpenCourseButton(npyscreen.ButtonPress):
     def whenPressed(self):
         self.parent.parentApp.currentCourse = self.name
+        self.parent.parentApp.helper.debug(self.parent.parentApp.currentCourse)
         self.parent.parentApp.addForm("SEE-COURSE", SeeCourseForm, name=self.name)
         self.parent.parentApp.change_form("SEE-COURSE")
 

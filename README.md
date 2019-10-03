@@ -32,3 +32,10 @@
 * Several class time data entries per course
 * Calendar based on time of classes
 * Cleaning up folders of your OS (?)
+
+
+## Notes for dev
+* Organize project better
+* Delete all the related notes & classes when delete the course
+* OR store last course_id, so they are never repeated
+* Scrolling when displaying text
